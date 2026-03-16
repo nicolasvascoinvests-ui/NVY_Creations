@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Client Showcase – Liofilizaciones Quindío</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0a0f;
+    --card-bg: #111118;
+    --border: rgba(255,255,255,0.07);
+    --accent: #c8f075;
+    --accent2: #7fffd4;
+    --text: #f0f0f0;
+    --muted: #666;
+    --tag-bg: rgba(200,240,117,0.12);
+  }
+
+  body {
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    font-family: 'DM Sans', sans-serif;
+    padding: 2rem;
+  }
+
+  /* ── CARD ── */
+  .card {
+    width: 360px;
+    border-radius: 18px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.6);
+    position: relative;
+  }
+
+  /* ── PREVIEW WINDOW (the animated "video") ── */
+  .preview {
+    width: 100%;
+    height: 210px;
+    position: relative;
+    overflow: hidden;
+    background: #060a08;
+    cursor: pointer;
+  }
+
+  /* Animated gradient backdrop – mimics a cinematic scene */
+  .preview-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 80% at 30% 60%, #0d2e1a 0%, #061009 60%, #000 100%);
+  }
+
+  /* Floating freeze-dry particles */
+  .particle {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--accent);
+    opacity: 0;
+    animation: float-up var(--dur) ease-in infinite;
+    animation-delay: var(--delay);
+  }
+
+  @keyframes float-up {
+    0%   { transform: translateY(0) scale(1); opacity: 0; }
+    10%  { opacity: 0.6; }
+    80%  { opacity: 0.3; }
+    100% { transform: translateY(-180px) scale(0.3); opacity: 0; }
+  }
+
+  /* Animated scan line */
+  .scanline {
+    position: absolute;
+    left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent2), transparent);
+    opacity: 0.5;
+    animation: scan 3s linear infinite;
+  }
+  @keyframes scan {
+    0%   { top: 100%; }
+    100% { top: -2px; }
+  }
+
+  /* Frost/crystal animation on the icon */
+  .frost-icon {
+    position: absolute;
+    left: 50%; top: 50%;
+    transform: translate(-50%, -55%);
+    width: 80px; height: 80px;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .frost-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1.5px solid rgba(127,255,212,0.25);
+    animation: pulse-ring 3s ease-out infinite;
+  }
+  .frost-ring:nth-child(1) { width: 80px; height: 80px; animation-delay: 0s; }
+  .frost-ring:nth-child(2) { width: 110px; height: 110px; animation-delay: 0.6s; }
+  .frost-ring:nth-child(3) { width: 140px; height: 140px; animation-delay: 1.2s; }
+
+  @keyframes pulse-ring {
+    0%   { opacity: 0.7; transform: scale(0.85); }
+    100% { opacity: 0; transform: scale(1.3); }
+  }
+
+  .frost-core {
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(127,255,212,0.18) 0%, rgba(0,80,50,0.35) 100%);
+    border: 1.5px solid rgba(127,255,212,0.5);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px;
+    animation: frost-pulse 2.5s ease-in-out infinite;
+    box-shadow: 0 0 20px rgba(127,255,212,0.25), inset 0 0 15px rgba(127,255,212,0.1);
+  }
+  @keyframes frost-pulse {
+    0%, 100% { box-shadow: 0 0 20px rgba(127,255,212,0.25), inset 0 0 15px rgba(127,255,212,0.1); }
+    50%       { box-shadow: 0 0 35px rgba(127,255,212,0.5), inset 0 0 20px rgba(127,255,212,0.2); }
+  }
+
+  /* Bottom stat bar in preview */
+  .preview-stats {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 12px 14px 10px;
+    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%);
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+
+  .preview-url {
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--accent2);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.85;
+  }
+
+  .live-badge {
+    display: flex; align-items: center; gap: 5px;
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--accent);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .live-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: blink 1.4s ease-in-out infinite;
+  }
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.2; }
+  }
+
+  /* ── HOVER OVERLAY – shows screenshot-like snapshot ── */
+  .preview:hover .hover-overlay { opacity: 1; }
+  .hover-overlay {
+    position: absolute; inset: 0;
+    background: rgba(0,0,0,0.55);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .visit-btn {
+    font-family: 'Syne', sans-serif;
+    font-size: 12px; font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #000;
+    background: var(--accent);
+    border: none;
+    padding: 10px 22px;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform 0.2s ease;
+  }
+  .visit-btn:hover { transform: scale(1.04); }
+
+  /* ── CARD BODY ── */
+  .card-body { padding: 18px 20px 20px; }
+
+  .client-row {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .client-logo {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #0d3b20, #1a6b38);
+    border: 1px solid rgba(127,255,212,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  }
+
+  .client-info { flex: 1; min-width: 0; }
+
+  .client-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    letter-spacing: 0.01em;
+  }
+
+  .client-meta {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 1px;
+    display: flex; align-items: center; gap: 4px;
+  }
+  .client-meta .dot { color: var(--border); }
+
+  /* Tags */
+  .tags {
+    display: flex; gap: 6px; flex-wrap: wrap;
+    margin-bottom: 14px;
+  }
+  .tag {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 4px 9px;
+    border-radius: 4px;
+    border: 1px solid rgba(255,255,255,0.08);
+    color: #999;
+    background: rgba(255,255,255,0.04);
+  }
+  .tag.accent {
+    color: var(--accent);
+    background: var(--tag-bg);
+    border-color: rgba(200,240,117,0.2);
+  }
+  .tag.aqua {
+    color: var(--accent2);
+    background: rgba(127,255,212,0.08);
+    border-color: rgba(127,255,212,0.18);
+  }
+
+  /* Divider */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 14px 0;
+  }
+
+  /* Testimonial quote */
+  .quote {
+    font-size: 12.5px;
+    line-height: 1.65;
+    color: #aaa;
+    font-style: italic;
+    position: relative;
+    padding-left: 14px;
+  }
+  .quote::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 2px; bottom: 2px;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--accent2), transparent);
+    border-radius: 2px;
+  }
+
+  .quote-author {
+    margin-top: 10px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .author-avatar {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1a6b38, #0d3b20);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .author-name {
+    font-size: 11px;
+    font-weight: 600;
+    color: #ccc;
+  }
+  .author-role {
+    font-size: 10px;
+    color: var(--muted);
+    margin-left: 2px;
+  }
+
+  /* Star rating */
+  .stars {
+    display: flex; gap: 2px;
+    margin-top: 2px;
+  }
+  .star { color: var(--accent); font-size: 10px; }
+
+  /* Animated entry */
+  .card {
+    animation: card-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  @keyframes card-in {
+    from { opacity: 0; transform: translateY(20px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+
+  <!-- ANIMATED PREVIEW -->
+  <div class="preview">
+    <div class="preview-bg"></div>
+    <div class="scanline"></div>
+
+    <!-- Floating particles (freeze-dry effect) -->
+    <div class="particle" style="width:3px;height:3px;left:18%;--dur:3.2s;--delay:0s;bottom:10px"></div>
+    <div class="particle" style="width:2px;height:2px;left:35%;--dur:2.8s;--delay:0.4s;bottom:20px"></div>
+    <div class="particle" style="width:4px;height:4px;left:55%;--dur:3.8s;--delay:0.9s;bottom:5px"></div>
+    <div class="particle" style="width:2px;height:2px;left:70%;--dur:2.5s;--delay:0.2s;bottom:15px"></div>
+    <div class="particle" style="width:3px;height:3px;left:82%;--dur:3.5s;--delay:1.2s;bottom:10px"></div>
+    <div class="particle" style="width:2px;height:2px;left:28%;--dur:4s;--delay:1.7s;bottom:8px"></div>
+    <div class="particle" style="width:3px;height:3px;left:62%;--dur:3s;--delay:0.6s;bottom:20px"></div>
+    <div class="particle" style="width:2px;height:2px;left:45%;--dur:2.6s;--delay:2s;bottom:5px"></div>
+
+    <!-- Central frost icon -->
+    <div class="frost-icon">
+      <div class="frost-ring"></div>
+      <div class="frost-ring"></div>
+      <div class="frost-ring"></div>
+      <div class="frost-core">❄️</div>
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="preview-stats">
+      <span class="preview-url">liofilizacionesquindio.com</span>
+      <span class="live-badge"><span class="live-dot"></span>Live</span>
+    </div>
+
+    <!-- Hover overlay -->
+    <div class="hover-overlay">
+      <a class="visit-btn" href="https://liofilizacionesquindio.com" target="_blank">Visit Site →</a>
+    </div>
+  </div>
+
+  <!-- CARD BODY -->
+  <div class="card-body">
+
+    <div class="client-row">
+      <div class="client-logo">🌿</div>
+      <div class="client-info">
+        <div class="client-name">Liofilizaciones Quindío</div>
+        <div class="client-meta">
+          <span>Colombia</span>
+          <span class="dot">·</span>
+          <span>Food Tech</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tags">
+      <span class="tag accent">Web Design</span>
+      <span class="tag aqua">Frontend Dev</span>
+      <span class="tag">E-commerce</span>
+      <span class="tag">SEO</span>
+    </div>
+
+    <div class="divider"></div>
+
+    <blockquote class="quote">
+      "Nico delivered a beautiful, fast website that perfectly captures our brand. 
+      Our online presence has never looked this professional."
+    </blockquote>
+
+    <div class="quote-author">
+      <div class="author-avatar">LQ</div>
+      <div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="author-name">Liofilizaciones Quindío</span>
+          <div class="stars">
+            <span class="star">★</span><span class="star">★</span>
+            <span class="star">★</span><span class="star">★</span><span class="star">★</span>
+          </div>
+        </div>
+        <span class="author-role">Verified Client · 2024</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>
