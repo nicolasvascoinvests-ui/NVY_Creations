@@ -1,3 +1,9 @@
 node_modules/
 temporary screenshots/
 .claude/
+.vscode/
+get-shit-done/
+CLAUDE.md
+CLAUDE webdesign.md
+package.json
+package-lock.json
