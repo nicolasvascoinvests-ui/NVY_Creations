@@ -2124,8 +2124,8 @@
       var ctx = canvas.getContext('2d');
       var mouse = { x: -9999, y: -9999 };
       var container = canvas.parentElement;
-      var W = container.offsetWidth || window.innerWidth;
-      var H = container.offsetHeight || window.innerHeight;
+      var W = 0;
+      var H = 0;
       var animFrameId = null;
       var isVisible = true;
       var resizeTimer = null;
