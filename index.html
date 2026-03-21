@@ -23,11 +23,34 @@
   <link rel="canonical" href="https://nvycreations.com/" />
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; form-action https://api.web3forms.com; frame-ancestors 'none'; base-uri 'self'" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=Outfit:wght@300;400;500&display=swap" onload="this.onload=null;this.rel='stylesheet'" />
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=Outfit:wght@300;400;500&display=swap" /></noscript>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://api.web3forms.com; form-action https://api.web3forms.com; frame-ancestors 'none'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests" />
+  <!-- Self-hosted fonts — no third-party requests (GDPR compliant) -->
+  <style>
+    @font-face {
+      font-family: 'Orbitron';
+      font-style: normal;
+      font-weight: 400 800;
+      font-display: swap;
+      src: url(/fonts/orbitron-latin.woff2) format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    }
+    @font-face {
+      font-family: 'Outfit';
+      font-style: normal;
+      font-weight: 300 500;
+      font-display: swap;
+      src: url(/fonts/outfit-latin.woff2) format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    }
+    @font-face {
+      font-family: 'Outfit';
+      font-style: normal;
+      font-weight: 300 500;
+      font-display: swap;
+      src: url(/fonts/outfit-latin-ext.woff2) format('woff2');
+      unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+    }
+  </style>
   <style>
     /* ══════════════════════════════════════
        DESIGN TOKENS
@@ -46,6 +69,10 @@
       --accent-glow: #2a7a8f;
       --accent-light: #5bb8cc;
       --danger: #c0392b;
+      /* RGB channel companions for rgba() usage */
+      --accent-cyan-rgb: 61, 139, 158;
+      --chrome-2-rgb: 184, 198, 214;
+      --chrome-1-rgb: 138, 155, 176;
       --space-xs: 8px;
       --space-sm: 16px;
       --space-md: 24px;
@@ -121,12 +148,12 @@
     }
 
     .section-label {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 0.65rem;
-      font-weight: 500;
+      font-family: var(--font-display);
+      font-size: 0.7rem;
+      font-weight: 600;
       letter-spacing: 0.35em;
       text-transform: uppercase;
-      color: var(--accent-cyan);
+      color: var(--accent-light);
       margin-bottom: var(--space-sm);
       display: flex;
       align-items: center;
@@ -142,7 +169,7 @@
     }
 
     .section-title {
-      font-family: 'Orbitron', sans-serif;
+      font-family: var(--font-display);
       font-weight: 700;
       font-size: clamp(1.8rem, 4vw, 3rem);
       letter-spacing: -0.02em;
@@ -247,7 +274,7 @@
     }
 
     .nav-logo {
-      font-family: 'Orbitron', sans-serif;
+      font-family: var(--font-display);
       font-weight: 700;
       font-size: 0.85rem;
       letter-spacing: 0.2em;
@@ -268,7 +295,7 @@
     }
 
     .nav-links a {
-      font-family: 'Outfit', sans-serif;
+      font-family: var(--font-body);
       font-size: 0.8rem;
       font-weight: 400;
       letter-spacing: 0.08em;
@@ -293,7 +320,7 @@
     .nav-links a:hover::after { width: 100%; }
 
     .nav-cta {
-      font-family: 'Orbitron', sans-serif;
+      font-family: var(--font-display);
       font-size: 0.7rem;
       letter-spacing: 0.12em;
       text-transform: uppercase;
@@ -319,7 +346,7 @@
       background: none;
       border: none;
       cursor: pointer;
-      padding: 4px;
+      padding: 12px;
     }
     .nav-toggle span {
       display: block;
@@ -393,7 +420,7 @@
     .hero-left { flex: 1; }
 
     .hero-heading {
-      font-family: 'Orbitron', sans-serif;
+      font-family: var(--font-display);
       font-weight: 800;
       font-size: clamp(2.4rem, 6vw, 4.5rem);
       letter-spacing: -0.02em;
@@ -433,7 +460,7 @@
     }
 
     .hero-tags {
-      font-family: 'Orbitron', sans-serif;
+      font-family: var(--font-display);
       font-weight: 400;
       font-size: clamp(0.65rem, 1.5vw, 0.85rem);
       letter-spacing: 0.35em;
@@ -468,7 +495,7 @@
       align-items: center;
       gap: 10px;
       padding: 14px 32px;
-      font-family: 'Orbitron', sans-serif;
+      font-family: var(--font-display);
       font-weight: 500;
       font-size: 0.8rem;
       letter-spacing: 0.12em;
@@ -495,7 +522,7 @@
       align-items: center;
       gap: 10px;
       padding: 14px 32px;
-      font-family: 'Orbitron', sans-serif;
+      font-family: var(--font-display);
       font-weight: 600;
       font-size: 0.8rem;
       letter-spacing: 0.12em;
@@ -636,18 +663,20 @@
       100% { transform: translateY(-180px) scale(0.3); opacity: 0; }
     }
 
-    /* Scan line */
+    /* Scan line — uses transform instead of top for GPU compositing */
     .cc-scanline {
       position: absolute;
       left: 0; right: 0;
+      top: 0;
       height: 2px;
       background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
       opacity: 0.4;
       animation: cc-scan 3s linear infinite;
+      will-change: transform;
     }
     @keyframes cc-scan {
-      0%   { top: 100%; }
-      100% { top: -2px; }
+      0%   { transform: translateY(210px); }
+      100% { transform: translateY(-2px); }
     }
 
     /* Frost icon */
@@ -681,12 +710,22 @@
       border: 1.5px solid rgba(61, 139, 158, 0.5);
       display: flex; align-items: center; justify-content: center;
       font-size: 24px;
-      animation: cc-frost-pulse 2.5s ease-in-out infinite;
+      position: relative;
       box-shadow: 0 0 20px rgba(61, 139, 158, 0.25), inset 0 0 15px rgba(61, 139, 158, 0.1);
     }
-    @keyframes cc-frost-pulse {
-      0%, 100% { box-shadow: 0 0 20px rgba(61, 139, 158, 0.25), inset 0 0 15px rgba(61, 139, 158, 0.1); }
-      50%       { box-shadow: 0 0 35px rgba(61, 139, 158, 0.5), inset 0 0 20px rgba(61, 139, 158, 0.2); }
+    /* Glow pulse via opacity on pseudo-element instead of animating box-shadow */
+    .cc-frost-core::after {
+      content: '';
+      position: absolute;
+      inset: -8px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(61, 139, 158, 0.5) 0%, transparent 70%);
+      animation: cc-frost-glow 2.5s ease-in-out infinite;
+      pointer-events: none;
+    }
+    @keyframes cc-frost-glow {
+      0%, 100% { opacity: 0.4; }
+      50%      { opacity: 1; }
     }
 
     /* Preview bottom bar */
@@ -701,7 +740,7 @@
     }
 
     .cc-preview-url {
-      font-family: 'Orbitron', sans-serif;
+      font-family: var(--font-display);
       font-size: 10px;
       font-weight: 600;
       color: var(--accent-cyan);
@@ -739,7 +778,7 @@
       transition: opacity 0.3s ease;
     }
     .cc-visit-btn {
-      font-family: 'Orbitron', sans-serif;
+      font-family: var(--font-display);
       font-size: 11px; font-weight: 700;
       letter-spacing: 0.1em;
       text-transform: uppercase;
@@ -779,7 +818,7 @@
     .cc-client-info { flex: 1; min-width: 0; }
 
     .cc-client-name {
-      font-family: 'Orbitron', sans-serif;
+      font-family: var(--font-display);
       font-size: 12px;
       font-weight: 700;
       color: var(--chrome-3);
@@ -790,7 +829,7 @@
     }
 
     .cc-client-meta {
-      font-family: 'Outfit', sans-serif;
+      font-family: var(--font-body);
       font-size: 11px;
       color: var(--chrome-1);
       margin-top: 1px;
@@ -804,7 +843,7 @@
       margin-bottom: 14px;
     }
     .cc-tag {
-      font-family: 'Outfit', sans-serif;
+      font-family: var(--font-body);
       font-size: 10px;
       font-weight: 500;
       letter-spacing: 0.05em;
@@ -829,7 +868,7 @@
 
     /* Testimonial */
     .cc-quote {
-      font-family: 'Outfit', sans-serif;
+      font-family: var(--font-body);
       font-size: 12.5px;
       line-height: 1.65;
       color: var(--chrome-1);
@@ -858,16 +897,16 @@
       font-size: 10px;
       font-weight: 700;
       color: var(--accent-cyan);
-      font-family: 'Orbitron', sans-serif;
+      font-family: var(--font-display);
     }
     .cc-author-name {
-      font-family: 'Outfit', sans-serif;
+      font-family: var(--font-body);
       font-size: 11px;
       font-weight: 600;
       color: var(--chrome-2);
     }
     .cc-author-role {
-      font-family: 'Outfit', sans-serif;
+      font-family: var(--font-body);
       font-size: 10px;
       color: var(--chrome-1);
       margin-left: 2px;
@@ -889,23 +928,18 @@
       padding: var(--space-2xl) 0;
     }
 
-    /* Subtle grain texture */
-    .services-section::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-      pointer-events: none;
-    }
+    /* Services uses grain-bg class instead of duplicating grain texture */
 
-    .services-header {
+    /* Shared centered section header */
+    .section-header--centered {
       text-align: center;
-      margin-bottom: 64px;
+      margin-bottom: var(--space-lg-2);
     }
+    .section-header--centered .section-label { justify-content: center; }
+    .section-header--centered .section-label::before { display: none; }
+    .section-header--centered .section-subtitle { margin: 0 auto; }
 
-    .services-header .section-label { justify-content: center; }
-    .services-header .section-label::before { display: none; }
-    .services-header .section-subtitle { margin: 0 auto; }
+    .services-header { /* extends section-header--centered via HTML class */ }
 
     .services-grid {
       display: grid;
@@ -998,7 +1032,7 @@
     }
 
     .service-card h3 {
-      font-family: 'Orbitron', sans-serif;
+      font-family: var(--font-display);
       font-size: 0.85rem;
       font-weight: 600;
       letter-spacing: 0.08em;
@@ -1010,7 +1044,7 @@
       font-size: 0.9rem;
       font-weight: 300;
       line-height: 1.7;
-      color: rgba(184, 198, 214, 0.5);
+      color: rgba(184, 198, 214, 0.65);
     }
 
     .service-tags {
@@ -1021,7 +1055,7 @@
     }
 
     .service-tags span {
-      font-family: 'Orbitron', sans-serif;
+      font-family: var(--font-display);
       font-size: 0.55rem;
       letter-spacing: 0.1em;
       text-transform: uppercase;
@@ -1082,7 +1116,7 @@
     }
 
     .stat-number {
-      font-family: 'Orbitron', sans-serif;
+      font-family: var(--font-display);
       font-size: 1.6rem;
       font-weight: 700;
       color: var(--accent-cyan);
@@ -1092,7 +1126,7 @@
     .stat-label {
       font-size: 0.8rem;
       font-weight: 400;
-      color: rgba(184, 198, 214, 0.45);
+      color: rgba(184, 198, 214, 0.75);
       letter-spacing: 0.03em;
     }
 
@@ -1157,14 +1191,7 @@
       pointer-events: none;
     }
 
-    .process-header {
-      text-align: center;
-      margin-bottom: 64px;
-    }
-
-    .process-header .section-label { justify-content: center; }
-    .process-header .section-label::before { display: none; }
-    .process-header .section-subtitle { margin: 0 auto; }
+    .process-header { /* extends section-header--centered via HTML class */ }
 
     .process-steps {
       display: grid;
@@ -1177,10 +1204,34 @@
       text-align: center;
       padding: 36px 24px;
       position: relative;
+      background: rgba(15, 15, 26, 0.4);
+      border: 1px solid rgba(138, 155, 176, 0.06);
+      border-radius: var(--radius-md);
+      transition: border-color 0.3s ease, transform 0.3s var(--ease-smooth);
     }
 
+    .process-step:hover {
+      border-color: rgba(61, 139, 158, 0.15);
+      transform: translateY(-3px);
+    }
+
+    /* Connector line between steps (desktop only) */
+    .process-steps::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 10%;
+      right: 10%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(61, 139, 158, 0.2), rgba(61, 139, 158, 0.2), transparent);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .process-step { z-index: 1; }
+
     .step-number {
-      font-family: 'Orbitron', sans-serif;
+      font-family: var(--font-display);
       font-size: 2.5rem;
       font-weight: 800;
       color: rgba(61, 139, 158, 0.3);
@@ -1189,7 +1240,7 @@
     }
 
     .step-title {
-      font-family: 'Orbitron', sans-serif;
+      font-family: var(--font-display);
       font-size: 0.8rem;
       font-weight: 600;
       letter-spacing: 0.08em;
@@ -1201,7 +1252,7 @@
       font-size: 0.85rem;
       font-weight: 300;
       line-height: 1.7;
-      color: rgba(184, 198, 214, 0.5);
+      color: rgba(184, 198, 214, 0.65);
     }
 
     /* ══════════════════════════════════════
@@ -1214,14 +1265,7 @@
       padding: var(--space-2xl) 0;
     }
 
-    .packages-header {
-      text-align: center;
-      margin-bottom: 64px;
-    }
-
-    .packages-header .section-label { justify-content: center; }
-    .packages-header .section-label::before { display: none; }
-    .packages-header .section-subtitle { margin: 0 auto; }
+    .packages-header { /* extends section-header--centered via HTML class */ }
 
     .packages-grid {
       display: grid;
@@ -1243,7 +1287,7 @@
     .package-card:hover {
       transform: translateY(-4px);
       border-color: rgba(61, 139, 158, 0.15);
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 40px rgba(61, 139, 158, 0.05);
     }
 
     .package-card.featured {
@@ -1256,7 +1300,7 @@
       position: absolute;
       top: 20px;
       right: 20px;
-      font-family: 'Orbitron', sans-serif;
+      font-family: var(--font-display);
       font-size: 0.55rem;
       font-weight: 600;
       letter-spacing: 0.15em;
@@ -1268,7 +1312,7 @@
     }
 
     .package-name {
-      font-family: 'Orbitron', sans-serif;
+      font-family: var(--font-display);
       font-size: 1rem;
       font-weight: 700;
       letter-spacing: 0.08em;
@@ -1313,7 +1357,7 @@
       display: block;
       text-align: center;
       padding: 14px 28px;
-      font-family: 'Orbitron', sans-serif;
+      font-family: var(--font-display);
       font-weight: 500;
       font-size: 0.75rem;
       letter-spacing: 0.12em;
@@ -1381,15 +1425,19 @@
       align-items: center;
       gap: 14px;
       padding: 20px;
-      background: rgba(15, 15, 26, 0.5);
-      border: 1px solid rgba(138, 155, 176, 0.04);
+      background: rgba(15, 15, 26, 0.7);
+      border: 1px solid rgba(138, 155, 176, 0.07);
       border-radius: var(--radius-sm);
       transition: border-color 0.3s ease, transform 0.3s var(--ease-smooth);
     }
 
     .deliverable-item:hover {
-      border-color: rgba(61, 139, 158, 0.12);
+      border-color: rgba(61, 139, 158, 0.15);
       transform: translateY(-2px);
+    }
+
+    .deliverable-item:hover .deliverable-icon {
+      color: var(--accent-light);
     }
 
     .deliverable-icon {
@@ -1402,6 +1450,7 @@
       justify-content: center;
       flex-shrink: 0;
       color: var(--accent-cyan);
+      transition: color 0.3s ease;
     }
 
     .deliverable-item span {
@@ -1490,7 +1539,7 @@
     }
 
     .contact-info h3 {
-      font-family: 'Orbitron', sans-serif;
+      font-family: var(--font-display);
       font-size: 0.85rem;
       font-weight: 600;
       letter-spacing: 0.08em;
@@ -1565,7 +1614,7 @@
     }
 
     .form-group label {
-      font-family: 'Orbitron', sans-serif;
+      font-family: var(--font-display);
       font-size: 0.6rem;
       font-weight: 500;
       letter-spacing: 0.15em;
@@ -1580,7 +1629,7 @@
       border: 1px solid rgba(138, 155, 176, 0.08);
       border-radius: var(--radius-sm);
       padding: 14px 16px;
-      font-family: 'Outfit', sans-serif;
+      font-family: var(--font-body);
       font-size: 0.9rem;
       font-weight: 400;
       color: var(--chrome-2);
@@ -1676,7 +1725,7 @@
     }
 
     .footer-col h4 {
-      font-family: 'Orbitron', sans-serif;
+      font-family: var(--font-display);
       font-size: 0.65rem;
       font-weight: 600;
       letter-spacing: 0.15em;
@@ -1697,10 +1746,11 @@
       font-weight: 400;
       color: rgba(184, 198, 214, 0.65);
       text-decoration: none;
-      transition: color 0.3s ease;
+      transition: color 0.3s ease, transform 0.25s var(--ease-smooth);
+      display: inline-block;
     }
 
-    .footer-col a:hover { color: var(--chrome-2); }
+    .footer-col a:hover { color: var(--chrome-2); transform: translateX(3px); }
 
     .footer-bottom {
       display: flex;
@@ -1712,11 +1762,11 @@
 
     .footer-copy {
       font-size: 0.75rem;
-      color: rgba(184, 198, 214, 0.3);
+      color: rgba(184, 198, 214, 0.5);
     }
 
     .footer-tagline {
-      font-family: 'Orbitron', sans-serif;
+      font-family: var(--font-display);
       font-size: 0.6rem;
       letter-spacing: 0.2em;
       text-transform: uppercase;
@@ -1737,7 +1787,7 @@
     }
 
     .nav { animation: navSlideDown 0.7s var(--ease-smooth) 0.1s both; }
-    .fade-in-1 { animation: fadeSlideUp 1s var(--ease-smooth) 0.5s both; }
+    .fade-in-1 { animation: fadeSlideUp 1s var(--ease-smooth) 0.1s both; }
     .fade-in-2 { animation: fadeSlideUp 1s var(--ease-smooth) 0.7s both; }
     .fade-in-3 { animation: fadeSlideUp 1s var(--ease-smooth) 0.9s both; }
     .fade-in-4 { animation: fadeSlideUp 1s var(--ease-smooth) 1.1s both; }
@@ -1757,7 +1807,6 @@
         inset: 0;
         z-index: 99;
         background: rgba(6, 6, 11, 0.97);
-        backdrop-filter: blur(20px);
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -1774,7 +1823,7 @@
       }
 
       .mobile-menu a {
-        font-family: 'Orbitron', sans-serif;
+        font-family: var(--font-display);
         font-size: 1.2rem;
         font-weight: 500;
         letter-spacing: 0.12em;
@@ -1828,6 +1877,180 @@
       outline: 2px solid var(--accent-cyan);
       outline-offset: 2px;
     }
+
+    /* ══════════════════════════════════════
+       EXTRACTED INLINE STYLES
+       ══════════════════════════════════════ */
+    .showcase-label {
+      justify-content: center;
+      margin-bottom: var(--space-sm);
+    }
+
+    .showcase-title {
+      text-align: center;
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      font-weight: 700;
+      color: var(--chrome-3);
+      margin-bottom: var(--space-xl);
+      letter-spacing: -0.02em;
+    }
+
+    .required-star {
+      color: var(--accent-cyan);
+    }
+
+    /* Service card focus-visible animated border */
+    .service-card:focus-visible::after {
+      opacity: 1;
+      animation-play-state: running;
+    }
+
+    .service-card:focus-visible {
+      transform: translateY(-4px);
+      border-color: rgba(61, 139, 158, 0.15);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 40px rgba(61, 139, 158, 0.05);
+      outline: none;
+    }
+
+    /* ══════════════════════════════════════
+       FAQ SECTION
+       ══════════════════════════════════════ */
+    .faq-section {
+      position: relative;
+      z-index: 10;
+      background: var(--deep);
+      padding: var(--space-2xl) 0;
+    }
+
+    .faq-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .faq-item {
+      background: rgba(15, 15, 26, 0.6);
+      border: 1px solid rgba(138, 155, 176, 0.06);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: border-color 0.3s ease;
+    }
+
+    .faq-item:hover { border-color: rgba(61, 139, 158, 0.15); }
+
+    .faq-question {
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      cursor: pointer;
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--chrome-3);
+      text-align: left;
+    }
+
+    .faq-question:hover { color: var(--accent-light); }
+
+    .faq-chevron {
+      flex-shrink: 0;
+      transition: transform 0.3s var(--ease-smooth);
+      color: var(--accent-cyan);
+    }
+
+    .faq-item.open .faq-chevron { transform: rotate(180deg); }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s var(--ease-smooth), padding 0.3s ease;
+    }
+
+    .faq-item.open .faq-answer {
+      max-height: 300px;
+      padding: 0 24px 20px;
+    }
+
+    .faq-answer p {
+      font-size: 0.9rem;
+      font-weight: 300;
+      line-height: 1.7;
+      color: rgba(184, 198, 214, 0.65);
+    }
+
+    /* ══════════════════════════════════════
+       FORM STATES
+       ══════════════════════════════════════ */
+    .form-status {
+      padding: 16px 20px;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      font-weight: 400;
+      line-height: 1.5;
+      display: none;
+    }
+
+    .form-status.success {
+      display: block;
+      background: rgba(61, 139, 158, 0.1);
+      border: 1px solid rgba(61, 139, 158, 0.2);
+      color: var(--accent-light);
+    }
+
+    .form-status.error {
+      display: block;
+      background: rgba(192, 57, 43, 0.1);
+      border: 1px solid rgba(192, 57, 43, 0.2);
+      color: #e74c3c;
+    }
+
+    .form-consent {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.8rem;
+      color: rgba(184, 198, 214, 0.65);
+      line-height: 1.5;
+    }
+
+    .form-consent input[type="checkbox"] {
+      margin-top: 3px;
+      accent-color: var(--accent-cyan);
+      flex-shrink: 0;
+    }
+
+    .form-consent a {
+      color: var(--accent-cyan);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .form-privacy-note {
+      font-size: 0.75rem;
+      color: rgba(184, 198, 214, 0.5);
+      line-height: 1.5;
+    }
+
+    /* WhatsApp contact link */
+    .contact-whatsapp {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--chrome-2);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .contact-whatsapp:hover { color: #25d366; }
 
     /* Reduced motion */
     @media (prefers-reduced-motion: reduce) {
@@ -1959,7 +2182,7 @@
             var force = (1 - dist/radius) * 0.6;
             cube.vx += (dx/dist)*force*0.4; cube.vy += (dy/dist)*force*0.4;
             cube.vrX += (Math.random()-0.5)*force*0.02; cube.vrY += (Math.random()-0.5)*force*0.02;
-          } else { dist = Math.sqrt(distSq); }
+          }
 
           cube.x += cube.vx; cube.y += cube.vy;
           cube.rX += cube.vrX; cube.rY += cube.vrY; cube.rZ += cube.vrZ;
@@ -2037,7 +2260,7 @@
     <div class="hero-content" id="heroContent">
       <div class="hero-inner">
         <div class="hero-left">
-          <h1 class="hero-heading fade-in-1">
+          <h1 id="hero-heading" class="hero-heading fade-in-1">
             <span class="text-chrome">We Build</span><br />
             <span class="text-chrome">Digital Experiences</span>
           </h1>
@@ -2068,12 +2291,12 @@
   <div class="section-divider" aria-hidden="true"></div>
 
   <!-- ═══ SHOWCASE ═══ -->
-  <section class="showcase-section grain-bg">
+  <section class="showcase-section grain-bg" id="showcase" aria-labelledby="showcase-heading">
     <div class="spotlight-layer"></div>
-    <p class="section-label reveal" style="justify-content: center; margin-bottom: var(--space-sm);">
+    <p class="section-label showcase-label reveal">
       Featured Client Work
     </p>
-    <h2 class="reveal" style="text-align: center; font-family: 'Orbitron', sans-serif; font-size: clamp(1.6rem, 3.5vw, 2.4rem); font-weight: 700; color: var(--chrome-3); margin-bottom: var(--space-xl); letter-spacing: -0.02em;">
+    <h2 id="showcase-heading" class="showcase-title reveal">
       Built by Us, Loved by Them
     </h2>
     <div class="showcase-wrapper reveal" id="showcaseWrapper" style="aspect-ratio: 16/9;">
@@ -2082,6 +2305,8 @@
         loop
         muted
         playsinline
+        preload="none"
+        poster="Brand-assets/liofrutsvideo-poster.jpg"
         width="1100"
         height="619"
         aria-label="LioFruts — client website showcase by NVY Creations"
@@ -2114,7 +2339,7 @@
         </div>
 
         <div class="cc-preview-stats">
-          <span class="cc-preview-url">liofilizacionesquindio.com</span>
+          <a href="https://liofilizacionesquindio.com" target="_blank" rel="noopener noreferrer" class="cc-preview-url">liofilizacionesquindio.com</a>
           <span class="cc-live-badge"><span class="cc-live-dot"></span>Live</span>
         </div>
 
@@ -2171,12 +2396,12 @@
   <div class="section-divider" aria-hidden="true"></div>
 
   <!-- ═══ SERVICES ═══ -->
-  <section class="services-section" id="services">
+  <section class="services-section grain-bg" id="services" aria-labelledby="services-heading">
     <div class="spotlight-layer"></div>
     <div class="container">
-      <div class="services-header reveal">
+      <div class="services-header section-header--centered reveal">
         <div class="section-label">What We Do</div>
-        <h2 class="section-title">Services & Capabilities</h2>
+        <h2 id="services-heading" class="section-title">Services & Capabilities</h2>
         <p class="section-subtitle">Everything we build. Everything we deliver. From first pixel to final deployment.</p>
       </div>
 
@@ -2308,17 +2533,17 @@
   <div class="section-divider" aria-hidden="true"></div>
 
   <!-- ═══ ABOUT ═══ -->
-  <section class="about-section" id="about">
+  <section class="about-section" id="about" aria-labelledby="about-heading">
     <div class="spotlight-layer"></div>
     <div class="container">
       <div class="about-grid">
         <div class="about-text reveal">
           <div class="section-label">About Us</div>
-          <h2 class="section-title">Design That Converts.<br/>Code That Performs.</h2>
+          <h2 id="about-heading" class="section-title">Design That Converts.<br/>Code That Performs.</h2>
           <p class="section-subtitle">
             Based in Medellín, Colombia, NVY Creations is a web design and development studio serving clients worldwide. We craft digital experiences with obsessive attention to detail — every pixel, every interaction, every line of code is intentional.
           </p>
-          <p class="section-subtitle" style="margin-top: 16px;">
+          <p class="section-subtitle" style="margin-top: var(--space-sm);">
             Remote and async-friendly, we work across time zones to deliver production-grade websites, applications, and e-commerce solutions that don't just look good — they perform.
           </p>
 
@@ -2363,12 +2588,12 @@
   <div class="section-divider" aria-hidden="true"></div>
 
   <!-- ═══ PROCESS ═══ -->
-  <section class="process-section grain-bg">
+  <section class="process-section grain-bg" id="process" aria-labelledby="process-heading">
     <div class="spotlight-layer"></div>
     <div class="container">
-      <div class="process-header reveal">
+      <div class="process-header section-header--centered reveal">
         <div class="section-label">How We Work</div>
-        <h2 class="section-title">From Concept to Launch</h2>
+        <h2 id="process-heading" class="section-title">From Concept to Launch</h2>
         <p class="section-subtitle">Every project starts with a conversation and follows a clear, collaborative process.</p>
       </div>
 
@@ -2399,118 +2624,13 @@
 
   <div class="section-divider" aria-hidden="true"></div>
 
-  <!-- ═══ PACKAGES ═══ -->
-  <section class="packages-section" id="packages">
-    <div class="spotlight-layer"></div>
-    <div class="container">
-      <div class="packages-header reveal">
-        <div class="section-label">Packages</div>
-        <h2 class="section-title">Service Packages</h2>
-        <p class="section-subtitle">Structured packages for every stage of your business. Custom scoping available for unique projects.</p>
-      </div>
-
-      <div class="packages-grid">
-        <!-- Starter -->
-        <div class="package-card reveal">
-          <div class="package-name">Starter</div>
-          <div class="package-desc">Perfect for individuals and small launches.</div>
-          <ul class="package-features">
-            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>1-page responsive website with custom design</li>
-            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>Mobile-first layout with smooth animations</li>
-            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>Contact form with spam protection</li>
-            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>SEO fundamentals (meta, sitemap, schema)</li>
-            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>Deployment with custom domain</li>
-            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>2 rounds of revisions</li>
-          </ul>
-          <a href="#contact" class="package-cta" data-service="starter">Get Started</a>
-        </div>
-
-        <!-- Business -->
-        <div class="package-card featured reveal">
-          <div class="package-name">Business</div>
-          <div class="package-desc">For companies ready to make a serious digital impression.</div>
-          <ul class="package-features">
-            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>5–10 page custom-designed website</li>
-            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>Full UI/UX design with wireframes</li>
-            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>CMS integration (WordPress, Sanity)</li>
-            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>Blog with categories and tags</li>
-            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>Analytics setup (GA4 + conversions)</li>
-            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>90+ Lighthouse scores</li>
-            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>1 month post-launch support</li>
-          </ul>
-          <a href="#contact" class="package-cta" data-service="business">Get Started</a>
-        </div>
-
-        <!-- E-Commerce -->
-        <div class="package-card reveal">
-          <div class="package-name">E-Commerce</div>
-          <div class="package-desc">For brands ready to sell online.</div>
-          <ul class="package-features">
-            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>Custom Shopify or headless storefront</li>
-            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>Product catalog with filters & search</li>
-            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>Cart & checkout optimization</li>
-            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>Stripe, PayPal & LATAM payments</li>
-            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>Transactional emails & inventory</li>
-            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>SEO & performance optimization</li>
-          </ul>
-          <a href="#contact" class="package-cta" data-service="ecommerce">Get Started</a>
-        </div>
-
-        <!-- Web Application -->
-        <div class="package-card reveal">
-          <div class="package-name">Web Application</div>
-          <div class="package-desc">For SaaS products, platforms, and internal tools.</div>
-          <ul class="package-features">
-            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>Custom React/Next.js application</li>
-            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>Authentication & user management</li>
-            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>Database & API development</li>
-            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>Admin dashboard with data viz</li>
-            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>Role-based access control</li>
-            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>CI/CD pipeline & testing suite</li>
-          </ul>
-          <a href="#contact" class="package-cta" data-service="webapp">Get Started</a>
-        </div>
-
-        <!-- Redesign -->
-        <div class="package-card reveal">
-          <div class="package-name">Redesign & Optimization</div>
-          <div class="package-desc">For existing sites that need a modern refresh.</div>
-          <ul class="package-features">
-            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>Full audit (performance, SEO, UX)</li>
-            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>Visual redesign with modern aesthetics</li>
-            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>Core Web Vitals performance overhaul</li>
-            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>SEO & accessibility improvements</li>
-            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>Content reorganization & IA</li>
-          </ul>
-          <a href="#contact" class="package-cta" data-service="redesign">Get Started</a>
-        </div>
-
-        <!-- Maintenance -->
-        <div class="package-card reveal">
-          <div class="package-name">Maintenance Retainer</div>
-          <div class="package-desc">For ongoing peace of mind.</div>
-          <ul class="package-features">
-            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>Monthly content & design updates</li>
-            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>Security & dependency patches</li>
-            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>Performance monitoring & reports</li>
-            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>Priority support & bug fixes</li>
-            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>Backup & disaster recovery</li>
-          </ul>
-          <a href="#contact" class="package-cta" data-service="maintenance">Get Started</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="section-divider" aria-hidden="true"></div>
-
   <!-- ═══ DELIVERABLES ═══ -->
-  <section class="deliverables-section grain-bg">
+  <section class="deliverables-section grain-bg" id="deliverables" aria-labelledby="deliverables-heading">
     <div class="spotlight-layer"></div>
     <div class="container">
       <div class="deliverables-header reveal">
         <div class="section-label">What You Get</div>
-        <h2 class="section-title">Professional Deliverables</h2>
+        <h2 id="deliverables-heading" class="section-title">Professional Deliverables</h2>
         <p class="section-subtitle">Every project comes with polished documentation. You don't just get a website — you get a complete professional package.</p>
       </div>
 
@@ -2569,13 +2689,180 @@
 
   <div class="section-divider" aria-hidden="true"></div>
 
+  <!-- ═══ PACKAGES ═══ -->
+  <section class="packages-section" id="packages" aria-labelledby="packages-heading">
+    <div class="spotlight-layer"></div>
+    <div class="container">
+      <div class="packages-header section-header--centered reveal">
+        <div class="section-label">Packages</div>
+        <h2 id="packages-heading" class="section-title">Service Packages</h2>
+        <p class="section-subtitle">Structured packages for every stage of your business. Custom scoping available for unique projects.</p>
+      </div>
+
+      <div class="packages-grid">
+        <!-- Starter -->
+        <div class="package-card reveal">
+          <div class="package-name">Starter</div>
+          <div class="package-desc">Perfect for individuals and small launches.</div>
+          <ul class="package-features">
+            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>1-page responsive website with custom design</li>
+            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>Mobile-first layout with smooth animations</li>
+            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>Contact form with spam protection</li>
+            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>SEO fundamentals (meta, sitemap, schema)</li>
+            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>Deployment with custom domain</li>
+            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>2 rounds of revisions</li>
+          </ul>
+          <a href="#contact" class="package-cta" data-service="starter">Start My Site</a>
+        </div>
+
+        <!-- Business -->
+        <div class="package-card featured reveal">
+          <div class="package-name">Business</div>
+          <div class="package-desc">For companies ready to make a serious digital impression.</div>
+          <ul class="package-features">
+            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>5–10 page custom-designed website</li>
+            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>Full UI/UX design with wireframes</li>
+            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>CMS integration (WordPress, Sanity)</li>
+            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>Blog with categories and tags</li>
+            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>Analytics setup (GA4 + conversions)</li>
+            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>90+ Lighthouse scores</li>
+            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>1 month post-launch support</li>
+          </ul>
+          <a href="#contact" class="package-cta" data-service="business">Build My Business</a>
+        </div>
+
+        <!-- E-Commerce -->
+        <div class="package-card reveal">
+          <div class="package-name">E-Commerce</div>
+          <div class="package-desc">For brands ready to sell online.</div>
+          <ul class="package-features">
+            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>Custom Shopify or headless storefront</li>
+            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>Product catalog with filters & search</li>
+            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>Cart & checkout optimization</li>
+            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>Stripe, PayPal & LATAM payments</li>
+            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>Transactional emails & inventory</li>
+            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>SEO & performance optimization</li>
+          </ul>
+          <a href="#contact" class="package-cta" data-service="ecommerce">Launch My Store</a>
+        </div>
+
+        <!-- Web Application -->
+        <div class="package-card reveal">
+          <div class="package-name">Web Application</div>
+          <div class="package-desc">For SaaS products, platforms, and internal tools.</div>
+          <ul class="package-features">
+            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>Custom React/Next.js application</li>
+            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>Authentication & user management</li>
+            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>Database & API development</li>
+            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>Admin dashboard with data viz</li>
+            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>Role-based access control</li>
+            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>CI/CD pipeline & testing suite</li>
+          </ul>
+          <a href="#contact" class="package-cta" data-service="webapp">Build My App</a>
+        </div>
+
+        <!-- Redesign -->
+        <div class="package-card reveal">
+          <div class="package-name">Redesign & Optimization</div>
+          <div class="package-desc">For existing sites that need a modern refresh.</div>
+          <ul class="package-features">
+            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>Full audit (performance, SEO, UX)</li>
+            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>Visual redesign with modern aesthetics</li>
+            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>Core Web Vitals performance overhaul</li>
+            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>SEO & accessibility improvements</li>
+            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>Content reorganization & IA</li>
+          </ul>
+          <a href="#contact" class="package-cta" data-service="redesign">Refresh My Site</a>
+        </div>
+
+        <!-- Maintenance -->
+        <div class="package-card reveal">
+          <div class="package-name">Maintenance Retainer</div>
+          <div class="package-desc">For ongoing peace of mind.</div>
+          <ul class="package-features">
+            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>Monthly content & design updates</li>
+            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>Security & dependency patches</li>
+            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>Performance monitoring & reports</li>
+            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>Priority support & bug fixes</li>
+            <li><svg width="14" height="14" aria-hidden="true"><use href="#icon-check"/></svg>Backup & disaster recovery</li>
+          </ul>
+          <a href="#contact" class="package-cta" data-service="maintenance">Start Retainer</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider" aria-hidden="true"></div>
+
+  <!-- ═══ FAQ ═══ -->
+  <section class="faq-section" id="faq" aria-labelledby="faq-heading">
+    <div class="spotlight-layer"></div>
+    <div class="container">
+      <div class="section-header--centered reveal">
+        <div class="section-label">Common Questions</div>
+        <h2 id="faq-heading" class="section-title">Frequently Asked Questions</h2>
+        <p class="section-subtitle">Everything you need to know before getting started.</p>
+      </div>
+
+      <div class="faq-grid">
+        <div class="faq-item reveal">
+          <button class="faq-question" aria-expanded="false">
+            How long does a typical project take?
+            <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="faq-answer">
+            <p>A single-page Starter site typically takes 1–2 weeks. Multi-page Business sites take 3–5 weeks. E-commerce and web applications can take 4–8 weeks depending on complexity. We'll give you a clear timeline in our project proposal before any work begins.</p>
+          </div>
+        </div>
+        <div class="faq-item reveal">
+          <button class="faq-question" aria-expanded="false">
+            Do you require a deposit before starting?
+            <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="faq-answer">
+            <p>Yes, we typically require a 50% deposit to begin work, with the remainder due upon project completion and your sign-off. Payment plans are available for larger projects.</p>
+          </div>
+        </div>
+        <div class="faq-item reveal">
+          <button class="faq-question" aria-expanded="false">
+            What if I don't like the design?
+            <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="faq-answer">
+            <p>Every project includes revision rounds (2 for Starter, more for larger packages). We design mockups first so you see exactly what your site will look like before any code is written. We iterate until you love it.</p>
+          </div>
+        </div>
+        <div class="faq-item reveal">
+          <button class="faq-question" aria-expanded="false">
+            Can I see more of your work?
+            <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="faq-answer">
+            <p>Absolutely! Send us a message through the contact form or WhatsApp and we'll share our full portfolio with case studies, before/after comparisons, and performance metrics from completed projects.</p>
+          </div>
+        </div>
+        <div class="faq-item reveal">
+          <button class="faq-question" aria-expanded="false">
+            Do you offer ongoing support after launch?
+            <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="faq-answer">
+            <p>Yes. Our Business package includes 1 month of post-launch support, and we offer monthly Maintenance Retainer packages for ongoing updates, security patches, performance monitoring, and priority bug fixes.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider" aria-hidden="true"></div>
+
   <!-- ═══ CONTACT ═══ -->
-  <section class="contact-section" id="contact">
+  <section class="contact-section" id="contact" aria-labelledby="contact-heading">
     <div class="container">
       <div class="contact-grid">
         <div class="contact-info reveal">
           <div class="section-label">Get In Touch</div>
-          <h2 class="section-title">Let's Build<br/>Something Great</h2>
+          <h2 id="contact-heading" class="section-title">Let's Build<br/>Something Great</h2>
           <p class="section-subtitle">Every project starts with a conversation. Tell us what you need, and we'll show you what's possible.</p>
 
           <div class="contact-details">
@@ -2599,6 +2886,15 @@
             </div>
             <div class="contact-detail">
               <div class="contact-detail-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              </div>
+              <div class="contact-detail-text">
+                <span class="contact-detail-label">WhatsApp</span>
+                <span class="contact-detail-value"><a href="https://wa.me/573057311138" class="contact-whatsapp" target="_blank" rel="noopener noreferrer">+57 305 731 1138</a></span>
+              </div>
+            </div>
+            <div class="contact-detail">
+              <div class="contact-detail-icon">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
               </div>
               <div class="contact-detail-text">
@@ -2617,12 +2913,12 @@
 
           <div class="form-row">
             <div class="form-group">
-              <label for="name">Name <span aria-label="required" style="color: var(--accent-cyan);">*</span></label>
-              <input type="text" id="name" name="name" placeholder="Your name" required aria-required="true" />
+              <label for="name">Name <span aria-label="required" class="required-star">*</span></label>
+              <input type="text" id="name" name="name" placeholder="Your name" required aria-required="true" maxlength="100" minlength="2" />
             </div>
             <div class="form-group">
-              <label for="email">Email <span aria-label="required" style="color: var(--accent-cyan);">*</span></label>
-              <input type="email" id="email" name="email" placeholder="your@email.com" required aria-required="true" />
+              <label for="email">Email <span aria-label="required" class="required-star">*</span></label>
+              <input type="email" id="email" name="email" placeholder="your@email.com" required aria-required="true" maxlength="254" />
             </div>
           </div>
 
@@ -2641,16 +2937,25 @@
           </div>
 
           <div class="form-group">
-            <label for="message">Message <span aria-label="required" style="color: var(--accent-cyan);">*</span></label>
-            <textarea id="message" name="message" placeholder="Tell us about your project, timeline, and goals..." required aria-required="true"></textarea>
+            <label for="message">Message <span aria-label="required" class="required-star">*</span></label>
+            <textarea id="message" name="message" placeholder="Tell us about your project, timeline, and goals..." required aria-required="true" maxlength="5000" minlength="10"></textarea>
+          </div>
+
+          <div class="form-consent">
+            <input type="checkbox" id="consent" name="consent" required aria-required="true">
+            <label for="consent">I agree to the processing of my personal data as described in the <a href="/privacy-policy.html">Privacy Policy</a>.</label>
           </div>
 
           <div class="form-submit">
             <button type="submit" class="cta-primary" style="width: 100%; justify-content: center;">
-              Send Message
+              <span class="btn-text">Send Message</span>
               <svg class="cta-arrow" width="16" height="16" aria-hidden="true" focusable="false"><use href="#icon-arrow"/></svg>
             </button>
           </div>
+
+          <div id="formStatus" class="form-status" aria-live="polite" aria-atomic="true"></div>
+
+          <p class="form-privacy-note">Your information is only used to respond to your inquiry. We don't share it with third parties. We typically reply within 24–48 hours.</p>
         </form>
       </div>
     </div>
@@ -2696,6 +3001,7 @@
             <li><a href="#about">About</a></li>
             <li><a href="#packages">Packages</a></li>
             <li><a href="#contact">Contact</a></li>
+            <li><a href="/privacy-policy.html">Privacy Policy</a></li>
           </ul>
         </div>
       </div>
@@ -2709,32 +3015,33 @@
 
   <!-- ═══ SCRIPTS ═══ -->
   <script>
+  (function() {
+    'use strict';
+
     // ── Scroll reveal ──
-    var revealElements = document.querySelectorAll('.reveal');
-    var revealObserver = new IntersectionObserver(function(entries) {
+    const revealElements = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver(function(entries) {
       entries.forEach(function(entry) {
         if (entry.isIntersecting) {
           entry.target.classList.add('visible');
           revealObserver.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    }, { threshold: 0.1, rootMargin: '0px 0px -20px 0px' });
     revealElements.forEach(function(el) { revealObserver.observe(el); });
 
-    // ── Merged scroll handler (nav + parallax + hero fade) ──
-    var nav = document.getElementById('mainNav');
-    var heroContent = document.getElementById('heroContent');
-    var showcaseWrapper = document.getElementById('showcaseWrapper');
-    var scrollTicking = false;
+    // ── Merged scroll handler (nav + hero fade) ──
+    const nav = document.getElementById('mainNav');
+    const heroContent = document.getElementById('heroContent');
+    let scrollTicking = false;
 
     window.addEventListener('scroll', function() {
       if (!scrollTicking) {
         requestAnimationFrame(function() {
-          var scrollY = window.scrollY;
+          const scrollY = window.scrollY;
           nav.classList.toggle('scrolled', scrollY > 60);
-          /* showcase parallax removed — keep position static on scroll */
           if (heroContent) {
-            heroContent.style.opacity = Math.max(0, 1 - scrollY / 500);
+            heroContent.style.opacity = Math.max(0, 1 - scrollY / window.innerHeight);
           }
           scrollTicking = false;
         });
@@ -2742,17 +3049,17 @@
       }
     }, { passive: true });
 
-    // ── Mobile menu with keyboard support ──
-    var navToggle = document.getElementById('navToggle');
-    var mobileMenu = document.getElementById('mobileMenu');
+    // ── Mobile menu with keyboard support + focus trap ──
+    const navToggle = document.getElementById('navToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
 
     function toggleMenu() {
-      var isOpen = mobileMenu.classList.toggle('open');
+      const isOpen = mobileMenu.classList.toggle('open');
       navToggle.classList.toggle('active');
       navToggle.setAttribute('aria-expanded', isOpen);
       document.body.style.overflow = isOpen ? 'hidden' : '';
       if (isOpen) {
-        var firstLink = mobileMenu.querySelector('a');
+        const firstLink = mobileMenu.querySelector('a');
         if (firstLink) firstLink.focus();
       }
     }
@@ -2767,25 +3074,35 @@
 
     navToggle.addEventListener('click', toggleMenu);
 
-    // Close menu on Escape key
+    // Close menu on Escape + focus trap
     document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape' && mobileMenu.classList.contains('open')) closeMobileMenu();
+      if (!mobileMenu.classList.contains('open')) return;
+      if (e.key === 'Escape') { closeMobileMenu(); return; }
+      if (e.key === 'Tab') {
+        const focusable = mobileMenu.querySelectorAll('a, button');
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault(); last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault(); first.focus();
+        }
+      }
     });
 
-    // Close mobile menu on link click (event delegation)
     mobileMenu.addEventListener('click', function(e) {
       if (e.target.tagName === 'A') closeMobileMenu();
     });
 
     // ── Cursor parallax on hero (throttled with rAF) ──
-    var mouseX = 0, mouseY = 0, parallaxTicking = false;
+    let mouseX = 0, mouseY = 0, parallaxTicking = false;
     document.addEventListener('mousemove', function(e) {
       mouseX = e.clientX; mouseY = e.clientY;
       if (!parallaxTicking) {
         requestAnimationFrame(function() {
           if (heroContent) {
-            var x = (mouseX / window.innerWidth - 0.5) * 2;
-            var y = (mouseY / window.innerHeight - 0.5) * 2;
+            const x = (mouseX / window.innerWidth - 0.5) * 2;
+            const y = (mouseY / window.innerHeight - 0.5) * 2;
             heroContent.style.transform = 'translate(' + (x * 12) + 'px, ' + (y * 8) + 'px)';
           }
           parallaxTicking = false;
@@ -2797,9 +3114,10 @@
     // ── Smooth scroll for anchor links ──
     document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
       anchor.addEventListener('click', function(e) {
-        var href = this.getAttribute('href');
+        const href = this.getAttribute('href');
         if (href === '#') return;
-        var target = document.querySelector(href);
+        if (!/^#[\w-]+$/.test(href)) return;
+        const target = document.getElementById(href.slice(1));
         if (target) {
           e.preventDefault();
           target.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -2808,52 +3126,86 @@
     });
 
     // ── Package CTA → auto-select service in contact form ──
-    var serviceSelect = document.getElementById('service');
+    const serviceSelect = document.getElementById('service');
     document.querySelectorAll('.package-cta[data-service]').forEach(function(btn) {
       btn.addEventListener('click', function() {
-        var val = this.getAttribute('data-service');
-        if (serviceSelect && val) {
-          serviceSelect.value = val;
-        }
+        const val = this.getAttribute('data-service');
+        if (serviceSelect && val) serviceSelect.value = val;
       });
     });
 
-    // ── Contact form submission feedback ──
-    var contactForm = document.getElementById('contactForm');
+    // ── Contact form — async submission with feedback ──
+    const contactForm = document.getElementById('contactForm');
     if (contactForm) {
-      contactForm.addEventListener('submit', function() {
-        var btn = this.querySelector('button[type="submit"]');
-        var textSpan = btn.childNodes[0];
-        if (textSpan) textSpan.textContent = 'Sending... ';
+      contactForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const btn = this.querySelector('button[type="submit"]');
+        const btnText = btn.querySelector('.btn-text');
+        const statusDiv = document.getElementById('formStatus');
+        const formData = new FormData(this);
+
+        // Remove consent field from submission (not needed by Web3Forms)
+        formData.delete('consent');
+
+        btnText.textContent = 'Sending...';
         btn.disabled = true;
+        btn.setAttribute('aria-busy', 'true');
         btn.style.opacity = '0.7';
+        statusDiv.className = 'form-status';
+        statusDiv.textContent = '';
+
+        fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          body: formData
+        })
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+          if (data.success) {
+            statusDiv.className = 'form-status success';
+            statusDiv.textContent = 'Message sent successfully! We\'ll be in touch within 24–48 hours.';
+            contactForm.reset();
+          } else {
+            throw new Error(data.message || 'Submission failed');
+          }
+        })
+        .catch(function(err) {
+          statusDiv.className = 'form-status error';
+          statusDiv.textContent = 'Something went wrong. Please try again or reach out via WhatsApp.';
+        })
+        .finally(function() {
+          btnText.textContent = 'Send Message';
+          btn.disabled = false;
+          btn.removeAttribute('aria-busy');
+          btn.style.opacity = '';
+        });
       });
     }
 
     // ── Animated stat counters ──
     (function() {
-      var stats = [
+      const stats = [
         { el: null, target: 100, suffix: '%', duration: 1800 },
         { el: null, target: 90,  suffix: '+', duration: 1400 },
         { el: null, text: true },
         { el: null, text: true }
       ];
-      var statNumbers = document.querySelectorAll('.stat-number');
+      const statNumbers = document.querySelectorAll('.stat-number');
       statNumbers.forEach(function(el, i) { if (stats[i]) stats[i].el = el; });
 
       function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
 
       function animateCounter(stat) {
         if (stat.text || !stat.el) return;
-        var start = performance.now();
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        const start = performance.now();
         stat.el.style.opacity = '0';
         stat.el.style.transform = 'translateY(8px)';
         stat.el.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
 
         requestAnimationFrame(function tick(now) {
-          var elapsed = now - start;
-          var progress = Math.min(elapsed / stat.duration, 1);
-          var eased = easeOut(progress);
+          const elapsed = now - start;
+          const progress = Math.min(elapsed / stat.duration, 1);
+          const eased = easeOut(progress);
           stat.el.textContent = Math.floor(eased * stat.target) + stat.suffix;
           stat.el.style.opacity = String(Math.min(progress * 3, 1));
           stat.el.style.transform = 'translateY(' + (8 - eased * 8) + 'px)';
@@ -2862,10 +3214,10 @@
         });
       }
 
-      var aboutStats = document.querySelector('.about-stats');
+      const aboutStats = document.querySelector('.about-stats');
       if (aboutStats) {
-        var fired = false;
-        var statsObserver = new IntersectionObserver(function(entries) {
+        let fired = false;
+        const statsObserver = new IntersectionObserver(function(entries) {
           entries.forEach(function(entry) {
             if (entry.isIntersecting && !fired) {
               fired = true;
@@ -2878,38 +3230,75 @@
       }
     })();
 
-    // ── Global spotlight mouse-follow on all sections (except hero) ──
+    // ── Global spotlight mouse-follow — rAF throttled with cached rects ──
     (function() {
-      var spotlights = document.querySelectorAll('.spotlight-layer');
+      const spotlights = document.querySelectorAll('.spotlight-layer');
       if (!spotlights.length) return;
 
-      document.addEventListener('mousemove', function(e) {
-        spotlights.forEach(function(layer) {
-          var parent = layer.parentElement;
-          var rect = parent.getBoundingClientRect();
-          // Only activate when section is in viewport
-          if (rect.bottom < 0 || rect.top > window.innerHeight) return;
-          var x = ((e.clientX - rect.left) / rect.width) * 100;
-          var y = ((e.clientY - rect.top) / rect.height) * 100;
-          layer.style.setProperty('--spot-x', x + '%');
-          layer.style.setProperty('--spot-y', y + '%');
-          layer.style.opacity = '1';
+      let spotTicking = false;
+      let spotMouseX = 0, spotMouseY = 0;
+      let parentRects = [];
+
+      function cacheRects() {
+        parentRects = Array.from(spotlights).map(function(layer) {
+          return { layer: layer, rect: layer.parentElement.getBoundingClientRect() };
         });
+      }
+      cacheRects();
+      window.addEventListener('scroll', cacheRects, { passive: true });
+      window.addEventListener('resize', cacheRects, { passive: true });
+
+      document.addEventListener('mousemove', function(e) {
+        spotMouseX = e.clientX; spotMouseY = e.clientY;
+        if (!spotTicking) {
+          requestAnimationFrame(function() {
+            parentRects.forEach(function(item) {
+              const rect = item.rect;
+              if (rect.bottom < 0 || rect.top > window.innerHeight) return;
+              const x = ((spotMouseX - rect.left) / rect.width) * 100;
+              const y = ((spotMouseY - rect.top) / rect.height) * 100;
+              item.layer.style.setProperty('--spot-x', x + '%');
+              item.layer.style.setProperty('--spot-y', y + '%');
+              item.layer.style.opacity = '1';
+            });
+            spotTicking = false;
+          });
+          spotTicking = true;
+        }
       }, { passive: true });
     })();
 
-    // ── Contact section mouse-follow glow (original) ──
+    // ── Contact section mouse-follow glow ──
     (function() {
-      var contactSection = document.getElementById('contact');
+      const contactSection = document.getElementById('contact');
       if (!contactSection) return;
+      let contactTicking = false, cx = 0, cy = 0;
       contactSection.addEventListener('mousemove', function(e) {
-        var rect = this.getBoundingClientRect();
-        var x = ((e.clientX - rect.left) / rect.width) * 100;
-        var y = ((e.clientY - rect.top) / rect.height) * 100;
-        this.style.setProperty('--mouse-x', x + '%');
-        this.style.setProperty('--mouse-y', y + '%');
+        cx = e.clientX; cy = e.clientY;
+        if (!contactTicking) {
+          requestAnimationFrame(function() {
+            const rect = contactSection.getBoundingClientRect();
+            const x = ((cx - rect.left) / rect.width) * 100;
+            const y = ((cy - rect.top) / rect.height) * 100;
+            contactSection.style.setProperty('--mouse-x', x + '%');
+            contactSection.style.setProperty('--mouse-y', y + '%');
+            contactTicking = false;
+          });
+          contactTicking = true;
+        }
       }, { passive: true });
     })();
+
+    // ── FAQ accordion ──
+    document.querySelectorAll('.faq-question').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        const item = this.parentElement;
+        const isOpen = item.classList.toggle('open');
+        this.setAttribute('aria-expanded', isOpen);
+      });
+    });
+
+  })();
   </script>
 
   <!-- Structured Data -->
@@ -2928,7 +3317,13 @@
       "addressRegion": "Antioquia",
       "addressCountry": "CO"
     },
+    "telephone": "+573057311138",
+    "email": "hello@nvycreations.com",
     "areaServed": "Worldwide",
+    "priceRange": "$$",
+    "sameAs": [
+      "https://wa.me/573057311138"
+    ],
     "serviceType": ["Web Design", "Web Development", "UI/UX Design", "E-Commerce", "Landing Pages", "Web Applications", "Web Maintenance"]
   }
   </script>
