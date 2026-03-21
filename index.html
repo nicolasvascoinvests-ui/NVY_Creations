@@ -658,8 +658,8 @@
 
     @keyframes cc-float {
       0%   { transform: translateY(0) scale(1); opacity: 0; }
-      10%  { opacity: 0.5; }
-      80%  { opacity: 0.2; }
+      15%  { opacity: 0.4; }
+      85%  { opacity: 0.15; }
       100% { transform: translateY(-180px) scale(0.3); opacity: 0; }
     }
 
@@ -670,8 +670,8 @@
       top: 0;
       height: 2px;
       background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
-      opacity: 0.4;
-      animation: cc-scan 3s linear infinite;
+      opacity: 0.3;
+      animation: cc-scan 6s linear infinite;
       will-change: transform;
     }
     @keyframes cc-scan {
@@ -692,15 +692,15 @@
       position: absolute;
       border-radius: 50%;
       border: 1.5px solid rgba(61, 139, 158, 0.3);
-      animation: cc-pulse-ring 3s ease-out infinite;
+      animation: cc-pulse-ring 5s ease-out infinite;
     }
     .cc-frost-ring:nth-child(1) { width: 80px; height: 80px; animation-delay: 0s; }
-    .cc-frost-ring:nth-child(2) { width: 110px; height: 110px; animation-delay: 0.6s; }
-    .cc-frost-ring:nth-child(3) { width: 140px; height: 140px; animation-delay: 1.2s; }
+    .cc-frost-ring:nth-child(2) { width: 110px; height: 110px; animation-delay: 1s; }
+    .cc-frost-ring:nth-child(3) { width: 140px; height: 140px; animation-delay: 2s; }
 
     @keyframes cc-pulse-ring {
-      0%   { opacity: 0.7; transform: scale(0.85); }
-      100% { opacity: 0; transform: scale(1.3); }
+      0%   { opacity: 0.5; transform: scale(0.9); }
+      100% { opacity: 0; transform: scale(1.25); }
     }
 
     .cc-frost-core {
@@ -720,7 +720,7 @@
       inset: -8px;
       border-radius: 50%;
       background: radial-gradient(circle, rgba(61, 139, 158, 0.5) 0%, transparent 70%);
-      animation: cc-frost-glow 2.5s ease-in-out infinite;
+      animation: cc-frost-glow 4s ease-in-out infinite;
       pointer-events: none;
     }
     @keyframes cc-frost-glow {
@@ -761,7 +761,7 @@
       width: 6px; height: 6px;
       border-radius: 50%;
       background: var(--accent-cyan);
-      animation: cc-blink 1.4s ease-in-out infinite;
+      animation: cc-blink 2s ease-in-out infinite;
     }
     @keyframes cc-blink {
       0%, 100% { opacity: 1; }
@@ -1859,6 +1859,11 @@
       .packages-grid {
         grid-template-columns: 1fr;
       }
+
+      /* Reduce client card animations on mobile for performance */
+      .cc-particle:nth-child(n+6) { display: none; }
+      .cc-scanline { animation-duration: 8s; opacity: 0.25; }
+      .cc-frost-ring { animation-duration: 6s; }
     }
 
     @media (max-width: 480px) {
@@ -2118,22 +2123,43 @@
       var canvas = document.getElementById('heroCubesCanvas');
       var ctx = canvas.getContext('2d');
       var mouse = { x: -9999, y: -9999 };
-      var W = window.innerWidth, H = window.innerHeight;
+      var container = canvas.parentElement;
+      var W = container.offsetWidth || window.innerWidth;
+      var H = container.offsetHeight || window.innerHeight;
       var animFrameId = null;
       var isVisible = true;
+      var resizeTimer = null;
 
-      function resize() {
+      function applyResize() {
         var dpr = Math.min(window.devicePixelRatio || 1, 2);
-        W = window.innerWidth; H = window.innerHeight;
+        var newW = container.offsetWidth || window.innerWidth;
+        var newH = container.offsetHeight || window.innerHeight;
+        if (newW === W && newH === H) return;
+        W = newW; H = newH;
         canvas.width = W * dpr;
         canvas.height = H * dpr;
         canvas.style.width = W + 'px';
         canvas.style.height = H + 'px';
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       }
-      resize();
+      function resize() {
+        // Debounce on mobile to avoid URL bar show/hide clearing canvas repeatedly
+        if (resizeTimer) clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function() {
+          applyResize();
+          // Safety: ensure animation is running if canvas is in the viewport
+          if (!animFrameId && !prefersReduced) {
+            isVisible = true;
+            animFrameId = requestAnimationFrame(animate);
+          }
+        }, 100);
+      }
+      applyResize();
       window.addEventListener('resize', resize);
       window.addEventListener('mousemove', function(e) { mouse.x = e.clientX; mouse.y = e.clientY; }, { passive: true });
+      window.addEventListener('touchstart', function(e) { if (e.touches[0]) { mouse.x = e.touches[0].clientX; mouse.y = e.touches[0].clientY; } }, { passive: true });
+      window.addEventListener('touchmove', function(e) { if (e.touches[0]) { mouse.x = e.touches[0].clientX; mouse.y = e.touches[0].clientY; } }, { passive: true });
+      window.addEventListener('touchend', function() { mouse.x = -9999; mouse.y = -9999; }, { passive: true });
 
       function rotX(p, a) { var c=Math.cos(a),s=Math.sin(a); return [p[0], p[1]*c-p[2]*s, p[1]*s+p[2]*c]; }
       function rotY(p, a) { var c=Math.cos(a),s=Math.sin(a); return [p[0]*c+p[2]*s, p[1], -p[0]*s+p[2]*c]; }
@@ -2237,15 +2263,15 @@
       }
 
       // Visibility gating — pause when off-screen
+      // Use the LAST entry only (most recent state) to avoid race conditions on mobile
       var canvasObserver = new IntersectionObserver(function(entries) {
-        entries.forEach(function(entry) {
-          if (entry.isIntersecting) {
-            if (!isVisible) { isVisible = true; animFrameId = requestAnimationFrame(animate); }
-          } else {
-            isVisible = false;
-            if (animFrameId) { cancelAnimationFrame(animFrameId); animFrameId = null; }
-          }
-        });
+        var lastEntry = entries[entries.length - 1];
+        if (lastEntry.isIntersecting) {
+          if (!isVisible) { isVisible = true; animFrameId = requestAnimationFrame(animate); }
+        } else {
+          isVisible = false;
+          if (animFrameId) { cancelAnimationFrame(animFrameId); animFrameId = null; }
+        }
       }, { threshold: 0 });
 
       if (prefersReduced) {
